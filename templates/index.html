@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>图片二维码生成系统</title>
+    <!-- 导入jquery，用于作为bootstrap依赖环境 -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+        crossorigin="anonymous"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+    <h1>图片二维码生成系统</h1>
+    <hr />
+    <form class="form-inline" action="/export" method="post"
+        enctype="multipart/form-data">
+        <div class="form-group url_con">
+            <h4>请输入访问url：</h4>
+            <input type="text" name="url_str">
+        </div>
+        <div class="form-group file_con">
+            <h4>请选择要上传的图片：</h4>
+            <input type="file" name="file">
+        </div>
+        <input type="submit" value="生成" class="btn btn-primary">
+    </form>
+    <hr />
+    {% if show_photo %}
+        <div class="hide_con">
+            <div class="qrcode_con">
+                <img class="qrcode" src="{{ export_path }}" alt="生成的二维码">
+            </div>
+            <div class="download_con">
+                <a class="download_button" href="/download/{{ export_name }}?type=local">
+                    <button class="download_button btn btn-success">下载</button>
+                </a>
+                <a class="download_button" href="/download/{{ export_name }}?type=cos">
+                    <button class="download_button btn btn-info">添加到COS</button>
+                </a>
+            </div>
+        </div>
+    {% endif %}
+    <!-- 用于展示提示信息 -->
+    {% for message in get_flashed_messages() %}
+    <strong style="color:red">{{ message }}</strong>
+    {% endfor %}
+    </div>
+
+    <style type="text/css">
+        .container{
+            width: 50%;
+            margin: 40px auto 0;
+        }
+        h1 {
+            text-align: center;
+        }
+        .url_con {
+            width: 35%;
+        }
+        .file_con {
+            width: 45%;
+            margin-top: -2px;
+        }
+        .hide_con {
+            text-align: center;
+        }
+        .qrcode_con {
+            width: 100%;
+        }
+        .qrcode {
+            display: inline-block;
+            width: 200px;
+            height: 200px;
+            border: 1px solid #000;
+        }
+        .download_con {
+            width: 60%;
+            margin: 10px 20%;
+            display: flex;
+        }
+        .download_button {
+            width: 55%;
+        }
+    </style>
+</body>
+</html>
